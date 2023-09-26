@@ -63,7 +63,7 @@ export default {
     remove(database, table){
       axios({
         method: 'post',
-        url: 'api/database/table/drop',
+        url: 'http://localhost:3000/database/table/drop',
         headers: {},
         data: {
           database: database, // This is the body part

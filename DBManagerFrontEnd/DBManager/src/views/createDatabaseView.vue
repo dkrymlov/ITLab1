@@ -31,7 +31,7 @@ export default {
     createDatabase(databaseName){
         axios({
           method: 'post',
-          url: 'api/database/create',
+          url: 'http://localhost:3000/database/create',
           headers: {},
           data: {
             name: databaseName, // This is the body part

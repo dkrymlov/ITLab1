@@ -60,7 +60,7 @@ app.use(
 );
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
@@ -162,7 +162,8 @@ function getUpdatePropsQuery(props){
 app.post("/database/create", validateCreateDatabase, function (req, res){
     const body = req.body;
     pool.query("CREATE DATABASE " + body.name, function(err, data) {
-            res.sendStatus(200);
+            console.log(err)
+            res.sendStatus(200)
     });
 })
 
@@ -178,12 +179,8 @@ app.post("/database/table/create", validateCreateTable, function (req, res){
 app.post("/database/table/drop", validateDropTable, function (req, res){
     const body = req.body
     pool.query("USE " + body.database + "; DROP TABLE " + body.table + ";", function (err){
-        if(err){
-            console.log("USE " + body.database + "; DROP TABLE " + body.table + ";")
             console.log(err)
-        }else {
             res.sendStatus(200);
-        }
     })
 })
 
@@ -236,43 +233,19 @@ app.post("/database/projection", validateTableProjection, function (req, res){
 app.post("/database/table/edit", validateUpdateTable, function (req, res){
     const body = req.body
     pool.query("USE " + body.database + "; UPDATE " + body.table + " SET " + getUpdatePropsQuery(body.props) + " WHERE `" + body.columnName + "`='" + body.rowValue + "';", function (err){
+            console.log(err)
             res.sendStatus(200)
-
     })
 })
 
 app.get("/database", function (req, res){
 
     pool.query("SHOW databases", function (err, data){
+        console.log(err)
         res.send(data)
     })
 
 })
-
-app.post("/:database/dump", async function (req, res) {
-
-    const dumpFileName = `${Math.round(Date.now() / 1000)}.dump.sql`
-
-    const writeStream = fs.createWriteStream(dumpFileName)
-
-    const dump = spawn('mysqldump', [
-        '-u',
-        'root',
-        '-p',
-        'lab1',
-    ])
-
-    dump.stdout
-        .pipe(writeStream)
-        .on('finish', function () {
-            console.log('Completed')
-        })
-        .on('error', function (err) {
-            console.log(err)
-        })
-
-})
-
 
 app.listen(3000, function(){
     console.log("Server is running on port 3000");
