@@ -139,9 +139,9 @@ function getPropsQuery(props){
         for (let i = 0; i < props.length; i++) {
             let sigleProperty = ""
             if (props[i].nullable){
-                sigleProperty = props[i].name + " " + props[i].type + ","
+                sigleProperty = "`" + props[i].name + "` " + props[i].type + ","
             }else {
-                sigleProperty = props[i].name + " " + props[i].type + " NOT NULL" + ","
+                sigleProperty = "`" + props[i].name + "` " + props[i].type + " NOT NULL" + ","
             }
             result = result + sigleProperty
         }
@@ -159,19 +159,17 @@ function getUpdatePropsQuery(props){
 }
 
 // POST section
-app.post("/database/create", validateCreateDatabase, function (req, res){
+app.post("/database/create", validateCreateDatabase, function (req, res, next){
     const body = req.body;
-    pool.query("CREATE DATABASE " + body.name, function(err, data) {
-            console.log(err)
-            res.sendStatus(200)
+    pool.query("CREATE DATABASE " + body.name, function(err) {
+        res.send(err)
     });
 })
 
 app.post("/database/table/create", validateCreateTable, function (req, res){
     const body = req.body
-    pool.query("USE " + body.database + "; CREATE TABLE IF NOT EXISTS " + body.table + "(" + getPropsQuery(body.props) + ");", function (err){
-            console.log(err)
-            res.sendStatus(200);
+    pool.query("USE " + body.database + "; CREATE TABLE " + body.table + "(" + getPropsQuery(body.props) + ");", function (err){
+            res.send(err);
     })
 
 })
@@ -229,6 +227,7 @@ app.post("/database/projection", validateTableProjection, function (req, res){
 
     })
 })
+
 
 app.post("/database/table/edit", validateUpdateTable, function (req, res){
     const body = req.body

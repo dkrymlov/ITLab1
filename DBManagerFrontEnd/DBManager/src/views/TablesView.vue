@@ -55,7 +55,7 @@ export default {
   },
   methods : {
     fetch(){
-      axios.get('api/database/' + this.$route.params.database).then(response => {
+      axios.get('http://localhost:3000/database/' + this.$route.params.database).then(response => {
         console.log(response.data)
         this.data = response.data
       })

@@ -24,7 +24,17 @@
       </div>
       <button style="margin-top: 20px" type="submit" class="btn btn-outline-success">Create</button>
     </form>
+
+    <div v-if="err" class="alert alert-danger" role="alert">
+      {{err}}
+    </div>
+
+    <div v-if="ok" class="alert alert-success" role="alert">
+      {{ok}}
+    </div>
+
   </div>
+
 </template>
 
 <script>
@@ -35,12 +45,15 @@ export default {
   data() {
     return {
       formFields : [],
-      table : ""
+      table : "",
+      err : null,
+      ok : null
     }
   },
   methods : {
     createTable(){
-
+      this.err = null
+      this.ok = null
       axios({
         method: 'post',
         url: 'http://localhost:3000/database/table/create',
@@ -50,8 +63,19 @@ export default {
           table : this.table,
           props: this.formFields
         }
+      }).then(response => {
+        console.log(response)
+        if (response.data !== ""){
+          this.err = response.data.sqlMessage
+        }else {
+          this.ok = "Success!"
+          setTimeout(()=>{
+            window.location.href = "/" + this.$route.params.database
+          }, 1000)
+        }
+
       });
-      window.location.href = "/" + this.$route.params.database
+
 
     },
     addField(){

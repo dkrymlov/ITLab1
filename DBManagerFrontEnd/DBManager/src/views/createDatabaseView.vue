@@ -12,6 +12,14 @@
       <button type="submit" class="btn btn-outline-success">Create</button>
     </form>
 
+    <div v-if="err" class="alert alert-danger" role="alert">
+      {{err}}
+    </div>
+
+    <div v-if="ok" class="alert alert-success" role="alert">
+      {{ok}}
+    </div>
+
   </div>
 
 </template>
@@ -24,11 +32,15 @@ export default {
   data() {
     return {
       databaseName : "",
-      alertText : ""
+      alertText : "",
+      err : null,
+      ok : null
     }
   },
   methods : {
     createDatabase(databaseName){
+        this.err = null
+        this.ok = null
         axios({
           method: 'post',
           url: 'http://localhost:3000/database/create',
@@ -36,8 +48,18 @@ export default {
           data: {
             name: databaseName, // This is the body part
           }
+        }).then(response => {
+          if (response.data !== ""){
+            this.err = response.data.sqlMessage
+          }else {
+            this.ok = "Success!"
+            setTimeout(()=>{
+              window.location.href = "/"
+            }, 1000)
+          }
+          console.log(this.response)
         });
-        window.location.href = "/"
+
 
     }
   }
