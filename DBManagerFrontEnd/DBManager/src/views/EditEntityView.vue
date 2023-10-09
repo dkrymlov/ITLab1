@@ -4,7 +4,7 @@
 
     <h1>Edit Table Entity</h1>
     <h2>Where {{this.$route.params.field}} = {{this.$route.params.value}}</h2>
-    <button v-on:click="this.$router.push('/' + this.$route.params.database + '/' + this.$route.params.table)" class="btn btn-outline-warning">Go Back</button>
+    <button v-on:click="this.$router.push('/database/' + this.$route.params.database + '/table/' + this.$route.params.table)" class="btn btn-outline-warning">Go Back</button>
 
     <form @submit.prevent="editEntity()" class="needs-validation">
 
@@ -51,7 +51,7 @@ export default {
 
       axios({
         method: 'post',
-        url: 'http://localhost:3000/database/table/edit',
+        url: 'http://localhost:3000/database/' + this.$route.params.database + '/table/' + this.$route.params.table + '/edit',
         headers: {},
         data: {
           database : this.$route.params.database,
@@ -62,7 +62,7 @@ export default {
         }
       }).then(response => {
         console.log(response)
-        window.location.href = '/' + this.$route.params.database + '/' + this.$route.params.table
+        window.location.href = '/database/' + this.$route.params.database + '/table/' + this.$route.params.table
       })
 
     },
@@ -70,7 +70,7 @@ export default {
 
       axios({
         method: 'post',
-        url: 'http://localhost:3000/database/table',
+        url: 'http://localhost:3000/database/' + this.$route.params.database +'/table/' + this.$route.params.table,
         headers: {},
         data: {
           database: this.$route.params.database, // This is the body part

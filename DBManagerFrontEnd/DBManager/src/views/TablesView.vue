@@ -4,7 +4,7 @@
     <h1>"{{this.$route.params.database}}" Tables</h1>
     <div class="buttons">
       <button class="btn btn-outline-warning" v-on:click="this.$router.push('/')">Go Back</button>
-      <button class="btn btn-outline-success" v-on:click="this.$router.push(this.$route.params.database + '/create')">Create</button>
+      <button class="btn btn-outline-success" v-on:click="this.$router.push('/database/' + this.$route.params.database + '/table/create')">Create</button>
     </div>
 <!--    <a href="/create">Create new</a>-->
     <table class="table">
@@ -19,7 +19,7 @@
       <tr v-for="item in data" :key="item.Database">
         <td scope="row">{{ item.table_name }}</td>
         <td>
-          <button class="btn btn-outline-info" v-on:click="this.$router.push('/'+ item.databaseName + '/' + item.table_name)">Open</button>
+          <button class="btn btn-outline-info" v-on:click="this.$router.push('/database/'+ item.databaseName + '/table/' + item.table_name)">Open</button>
 <!--          <a v-bind:href="'/'+ item.databaseName + '/' + item.table_name">Open</a>-->
         </td>
         <td>

@@ -2,7 +2,7 @@
   <div class="database">
     <h1>"{{this.$route.params.table}}" Projection</h1>
     <h2>WHERE {{this.$route.params.field}} {{this.$route.params.operator}} {{this.$route.params.value}}</h2>
-    <button class="btn btn-outline-warning form-control" v-on:click="this.$router.push('/' + this.$route.params.database + '/' + this.$route.params.table)">Go Back</button>
+    <button class="btn btn-outline-warning form-control" v-on:click="this.$router.push('/database/' + this.$route.params.database + '/table/' + this.$route.params.table)">Go Back</button>
 
     <table class="table">
       <thead>
@@ -48,7 +48,7 @@ export default {
 
       axios({
         method: 'post',
-        url: 'http://localhost:3000/database/projection',
+        url: 'http://localhost:3000/database/' + this.$route.params.database + '/table/' + this.$route.params.table + '/projection',
         headers: {},
         data: {
             database : this.$route.params.database,

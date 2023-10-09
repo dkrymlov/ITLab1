@@ -2,7 +2,7 @@
   <div class="create">
     <h1>Create Table</h1>
     <div class="buttons">
-      <button v-on:click="this.$router.push('/' + this.$route.params.database)" class="btn btn-outline-warning" >Go Back</button>
+      <button v-on:click="this.$router.push('/database/' + this.$route.params.database)" class="btn btn-outline-warning" >Go Back</button>
       <button class="btn btn-outline-info" v-on:click="addField()" >Add Field</button>
     </div>
     <form @submit.prevent="createTable()" class="needs-validation">
@@ -56,7 +56,7 @@ export default {
       this.ok = null
       axios({
         method: 'post',
-        url: 'http://localhost:3000/database/table/create',
+        url: 'http://localhost:3000/database/' + this.$route.params.database + '/table/create',
         headers: {},
         data: {
           database : this.$route.params.database,
@@ -65,14 +65,10 @@ export default {
         }
       }).then(response => {
         console.log(response)
-        if (response.data !== ""){
-          this.err = response.data.sqlMessage
-        }else {
           this.ok = "Success!"
           setTimeout(()=>{
-            window.location.href = "/" + this.$route.params.database
+            window.location.href = "/database/" + this.$route.params.database
           }, 1000)
-        }
 
       });
 

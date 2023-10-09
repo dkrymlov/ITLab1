@@ -6,6 +6,7 @@ import EntitiesView from "@/views/EntitiesView.vue";
 import CreateTableView from "@/views/CreateTableView.vue";
 import EditEntityView from "@/views/EditEntityView.vue";
 import ProjectionView from "@/views/ProjectionView.vue";
+import CreateEntity from "@/views/CreateEntity.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,34 +17,39 @@ const router = createRouter({
       component: DatabasesView
     },
     {
-      path: '/:database',
+      path: '/database/:database',
       name: 'tables',
       component: TablesView
     },
     {
-      path: '/create',
+      path: '/database/create',
       name: 'databasecreate',
       component: CreateDatabaseView
     },
     {
-      path: '/:database/:table',
+      path: '/database/:database/table/:table',
       name: 'tableEntities',
       component: EntitiesView
     },
     {
-      path: '/:database/create',
+      path: '/database/:database/table/create',
       name: 'tableCreate',
       component: CreateTableView
     },
     {
-      path: '/:database/:table/:field/:value/edit',
+      path: '/database/:database/table/:table/edit/:field/:value',
       name: 'editEntity',
       component: EditEntityView
     },
     {
-      path: '/:database/:table/:field/:operator/:value/projection',
+      path: '/database/:database/table/:table/projection/:field/:operator/:value',
       name: 'projection',
       component: ProjectionView
+    },
+    {
+      path: '/database/:database/table/:table/entity/create',
+      name: 'createEntity',
+      component: CreateEntity
     }
   ]
 })
