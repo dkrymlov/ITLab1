@@ -50,7 +50,7 @@ export default {
       )
 
       axios({
-        method: 'post',
+        method: 'put',
         url: 'http://localhost:3000/database/' + this.$route.params.database + '/table/' + this.$route.params.table + '/edit',
         headers: {},
         data: {

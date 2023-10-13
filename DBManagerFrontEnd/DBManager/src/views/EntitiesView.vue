@@ -70,6 +70,9 @@ export default {
           column : this.selectedField,
           value : this.selectedValue,
         }
+      }).then(r => {
+        console.log(r)
+        window.location.reload()
       })
     },
     fetch(){

@@ -63,14 +63,16 @@ export default {
     remove(database, table){
       axios({
         method: 'post',
-        url: 'http://localhost:3000/database/table/drop',
+        url: 'http://localhost:3000/database/' + database + '/table/' + table + '/drop',
         headers: {},
         data: {
           database: database, // This is the body part
           table: table, // This is the body part
         }
+      }).then(r => {
+        console.log(r)
+        window.location.reload()
       });
-      window.location.reload()
     }
   }
 }
